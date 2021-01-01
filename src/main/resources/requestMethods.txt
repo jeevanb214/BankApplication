@@ -1,0 +1,30 @@
+method - post  localhost:9090/user/createUser/1
+{
+    "id": 1,
+    "bankAccNum": "123654789",
+    "email": "jeevan9948@gmail.com",
+    "password": "13654789",
+    "firstName": "jeevan",
+    "lastName": "B",
+    "contact": "1111111",
+    "status": "active",
+    "userType": "customer"
+}
+
+method - get localhost:9090/user/getUser/1
+
+method - put  localhost:9090/user/updateUser
+{
+    "id": 1,
+    "bankAccNum": "123654789",
+    "email": "jeevan9948@gmail.com",
+    "password": "13654789",
+    "firstName": "jeevan",
+    "lastName": "B",
+    "contact": "1111111",
+    "status": "active",
+    "userType": "customer"
+}
+
+method - delete     localhost:9090/user/deleteUser/1
+

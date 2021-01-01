@@ -20,11 +20,14 @@ public class Transactions {
     @Column(name = "application_used", nullable = false)
     private String applicationUsed;
 
-    @Column(name = "to_bank_id", nullable = false)
-    private Long toBankId;
+    @Column(name = "amount", nullable = false)
+    private Double amount;
 
-    @Column(name = "from_bank_id")
-    private Long fromBankId;
+    @Column(name = "to_bank_acc", nullable = false)
+    private Long toBankAccNum;
+
+    @Column(name = "from_bank_acc")
+    private Long fromBankAccNum;
 
     @Column(name = "transaction_status")
     private String transactionStatus;

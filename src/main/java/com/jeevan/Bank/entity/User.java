@@ -36,12 +36,11 @@ public class User implements Serializable {
     @Column(name = "contact", unique = true, nullable = false)
     private String contact;
 
-    @Column(name = "password")
-    @JsonIgnore
+    @Column(name = "password", nullable = false)
     private String password;
 
     //@Enumerated(EnumType.STRING)
-    @Column(name = "userType")
+    @Column(name = "userType", nullable = false)
     private String userType;
 
     @Column(name = "status")
