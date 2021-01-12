@@ -1,13 +1,16 @@
-package com.jeevan.Bank.serviceImpl;
+package com.jeevan.bank.serviceImpl;
 
-import com.jeevan.Bank.dto.UserDto;
-import com.jeevan.Bank.entity.User;
-import com.jeevan.Bank.repository.UserRepo;
-import lombok.SneakyThrows;
+import com.jeevan.bank.constant.UserType;
+import com.jeevan.bank.dto.UserDto;
+import com.jeevan.bank.entity.User;
+import com.jeevan.bank.exception.BankException;
+import com.jeevan.bank.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,13 +21,12 @@ public class UserServiceImpl {
     UserRepo userRepo;
 
     public UserDto saveUser(UserDto userDto) {
-
         User user = convertDtoToUser(userDto, false);
-
         user = userRepo.save(user);
-
-        userDto = new UserDto();
-        userDto.setBankAccNum(user.getBankAccNum());
+        if (UserType.CUSTOMER.equals(userDto.getUserType())) {
+            userDto = new UserDto();
+            userDto.setBankAccNum(user.getBankAccNum());
+        }
         return userDto;
     }
 
@@ -32,14 +34,9 @@ public class UserServiceImpl {
         return String.valueOf(System.currentTimeMillis());
     }
 
-    @SneakyThrows
     public UserDto updateUser(UserDto userDto) {
-
-        if (userDto.getId() == null)
-            throw new Exception("user doesn't exist");
         User user = getUserById(userDto.getId());
         user = convertDtoToUser(userDto, true);
-
         user = userRepo.save(user);
         userDto = convertUserToDto(user);
         return userDto;
@@ -59,12 +56,10 @@ public class UserServiceImpl {
     }
 
 
-    @SneakyThrows
     private User getUserById(Long id) {
         Optional<User> user = userRepo.findById(id);
         if (!user.isPresent())
-            throw new Exception("user doesn't exist");
-
+            throw new BankException("user doesn't exist with the id:" + id);
         return user.get();
     }
 
@@ -85,11 +80,13 @@ public class UserServiceImpl {
 
     private User convertDtoToUser(UserDto userDto, Boolean update) {
         User user;
-        if (update)
+        if (update) {
             user = getUserById(userDto.getId());
-        else
+            user.setBankAccNum(user.getBankAccNum());
+        } else {
             user = new User();
-
+            user.setBankAccNum(generateAccNum());
+        }
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
@@ -97,8 +94,16 @@ public class UserServiceImpl {
         user.setContact(userDto.getContact());
         user.setStatus(userDto.getStatus());
         user.setUserType(userDto.getUserType());
-        user.setBankAccNum(generateAccNum());
 
         return user;
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<UserDto> userList = new ArrayList<>();
+        userRepo.findAll().forEach(user -> {
+            UserDto userDto = convertUserToDto(user);
+            userList.add(userDto);
+        });
+        return userList;
     }
 }

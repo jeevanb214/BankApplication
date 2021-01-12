@@ -1,6 +1,6 @@
-package com.jeevan.Bank.entity;
+package com.jeevan.bank.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jeevan.bank.constant.UserType;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -41,7 +41,7 @@ public class User implements Serializable {
 
     //@Enumerated(EnumType.STRING)
     @Column(name = "userType", nullable = false)
-    private String userType;
+    private UserType userType;
 
     @Column(name = "status")
     private String status;

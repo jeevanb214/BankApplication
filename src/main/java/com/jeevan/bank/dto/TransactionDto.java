@@ -1,4 +1,4 @@
-package com.jeevan.Bank.dto;
+package com.jeevan.bank.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

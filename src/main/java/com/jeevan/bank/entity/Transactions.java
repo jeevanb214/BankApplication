@@ -1,4 +1,4 @@
-package com.jeevan.Bank.entity;
+package com.jeevan.bank.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

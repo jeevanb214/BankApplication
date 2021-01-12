@@ -1,6 +1,6 @@
-package com.jeevan.Bank.repository;
+package com.jeevan.bank.repository;
 
-import com.jeevan.Bank.entity.Bank;
+import com.jeevan.bank.entity.Bank;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BankRepo extends JpaRepository<Bank, Long> {
