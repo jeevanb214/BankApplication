@@ -8,9 +8,12 @@ public class BankException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public BankException( @NonNull final String message) {
+    public BankException(@NonNull final String message) {
         super(message);
     }
 
+    public BankException(BankException bankException) {
+        super(bankException);
+    }
 }
 

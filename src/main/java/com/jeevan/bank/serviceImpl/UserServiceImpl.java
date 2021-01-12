@@ -1,6 +1,7 @@
 package com.jeevan.bank.serviceImpl;
 
 import com.jeevan.bank.constant.UserType;
+import com.jeevan.bank.dto.BankDto;
 import com.jeevan.bank.dto.UserDto;
 import com.jeevan.bank.entity.User;
 import com.jeevan.bank.exception.BankException;
@@ -20,12 +21,23 @@ public class UserServiceImpl {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    BankServiceImpl bankService;
+
     public UserDto saveUser(UserDto userDto) {
         User user = convertDtoToUser(userDto, false);
         user = userRepo.save(user);
-        if (UserType.CUSTOMER.equals(userDto.getUserType())) {
-            userDto = new UserDto();
-            userDto.setBankAccNum(user.getBankAccNum());
+        UserType userType = userDto.getUserType();
+        userDto = new UserDto();
+        userDto.setFirstName(user.getFirstName());
+        userDto.setEmail(user.getEmail());
+        if (UserType.CUSTOMER.equals(userType)) {
+            BankDto bankDto =  new BankDto();
+            bankDto.setBankAccNum(user.getBankAccNum());
+            bankDto.setUser(user);
+            bankDto.setAmount(0D);
+            bankDto = bankService.creatBankAccount(bankDto);
+            userDto.setBankDto(bankDto);
         }
         return userDto;
     }
@@ -85,7 +97,8 @@ public class UserServiceImpl {
             user.setBankAccNum(user.getBankAccNum());
         } else {
             user = new User();
-            user.setBankAccNum(generateAccNum());
+            if(UserType.CUSTOMER.equals(userDto.getUserType()))
+                user.setBankAccNum(generateAccNum());
         }
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());

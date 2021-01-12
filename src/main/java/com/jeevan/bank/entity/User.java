@@ -39,14 +39,14 @@ public class User implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    //@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(name = "userType", nullable = false)
     private UserType userType;
 
     @Column(name = "status")
     private String status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Bank> bankList;
 
     @CreationTimestamp

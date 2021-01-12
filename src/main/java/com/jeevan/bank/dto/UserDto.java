@@ -6,7 +6,7 @@ import lombok.Data;
 
 import com.jeevan.bank.constant.*;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -14,28 +14,30 @@ public class UserDto {
 
     private Long id;
 
-    @NotBlank
     private String bankAccNum;
 
-    @NotBlank
+    //@NotBlank --> it will not check for the null, it will check only length > 0
+    @NotNull
     private String email;
 
-    @NotBlank
+    @NotNull
     private String firstName;
 
     private String lastName;
 
-    @NotBlank
+    @NotNull
     private String contact;
 
     //@JsonIgnore
     private String password;
 
-    @NotBlank
+    @NotNull
     private UserType userType;
 
     private String status;
 
     private Double amount;
+
+    private BankDto bankDto;
 
 }

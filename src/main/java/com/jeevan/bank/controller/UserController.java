@@ -10,7 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Validated
@@ -34,10 +34,10 @@ public class UserController {
             apiResponse.setSuccess(true);
         } catch (BankException bankException) {
             log.error("Exception while creating a user");
-            throw new BankException();
+            throw new BankException(bankException);
         } catch (Exception exception) {
             log.error("Exception while creating a user");
-            throw new Exception();
+            throw new Exception(exception);
         }
         return apiResponse;
     }
@@ -66,16 +66,16 @@ public class UserController {
             apiResponse.setSuccess(true);
         } catch (BankException bankException) {
             log.error("Exception while updating a user");
-            throw new BankException();
+            throw new BankException(bankException);
         } catch (Exception exception) {
             log.error("Exception while updating a user");
-            throw new Exception();
+            throw new Exception(exception);
         }
         return apiResponse;
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public ApiResponse deleteUser(@PathVariable("id") @NotBlank Long id) throws Exception {
+    public ApiResponse deleteUser(@PathVariable("id") @NotNull Long id) throws Exception {
         ApiResponse apiResponse = new ApiResponse<>();
         try {
             userService.deleteUser(id);
@@ -84,16 +84,16 @@ public class UserController {
             apiResponse.setSuccess(true);
         } catch (BankException bankException) {
             log.error("Exception while deleting a user");
-            throw new BankException();
+            throw new BankException(bankException);
         } catch (Exception exception) {
             log.error("Exception while deleting a user");
-            throw new Exception();
+            throw new Exception(exception);
         }
         return apiResponse;
     }
 
     @GetMapping("/getUser/{id}")
-    public ApiResponse getUser(@PathVariable(name = "id") @NotBlank Long id) throws Exception {
+    public ApiResponse getUser(@PathVariable(name = "id") @NotNull Long id) throws Exception {
         ApiResponse<UserDto> apiResponse = new ApiResponse<>();
         try {
             UserDto userDto = userService.getUser(id);
@@ -102,15 +102,15 @@ public class UserController {
             apiResponse.setSuccess(true);
         } catch (BankException bankException) {
             log.error("Exception while getting a user");
-            throw new BankException();
+            throw new BankException(bankException);
         } catch (Exception exception) {
             log.error("Exception while getting a user");
-            throw new Exception();
+            throw new Exception(exception);
         }
         return apiResponse;
     }
 
-    @GetMapping("/getUser/{id}")
+    @GetMapping("/getAllUsers")
     public ApiResponse getAllUsers() throws Exception {
         ApiResponse<List<UserDto>> apiResponse = new ApiResponse<>();
         try {
@@ -120,10 +120,10 @@ public class UserController {
             apiResponse.setSuccess(true);
         } catch (BankException bankException) {
             log.error("Exception while fetching a user");
-            throw new BankException();
+            throw new BankException(bankException);
         } catch (Exception exception) {
             log.error("Exception while fetching a user");
-            throw new Exception();
+            throw new Exception(exception);
         }
         return apiResponse;
     }
