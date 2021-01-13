@@ -1,5 +1,7 @@
 package com.jeevan.bank.entity;
 
+import com.jeevan.bank.constant.ApplicationUsed;
+import com.jeevan.bank.constant.TransactionStatus;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,20 +19,22 @@ public class Transactions {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "application_used", nullable = false)
-    private String applicationUsed;
+    private ApplicationUsed applicationUsed;
 
     @Column(name = "amount", nullable = false)
     private Double amount;
 
-    @Column(name = "to_bank_acc", nullable = false)
-    private Long toBankAccNum;
+    @Column(name = "to_bank_acc"/*, nullable = false*/)
+    private String toBankAccNum;
 
     @Column(name = "from_bank_acc")
-    private Long fromBankAccNum;
+    private String fromBankAccNum;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "transaction_status")
-    private String transactionStatus;
+    private TransactionStatus transactionStatus;
 
     @CreationTimestamp
     @Column(name = "created_at")
